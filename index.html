@@ -1,347 +1,949 @@
 <!DOCTYPE html>
-<html lang="uz-Cyrl">
+<html lang="uz">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Тушлар мозори — Жонтемир шеърлари</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
-<style>
-:root{
-  /* подвал: бетон, қора, суяк рангли қоғоз */
-  --bg:#0c0c0b; --ink:#d9d4c7; --dim:#8b877c; --rule:#d9d4c7;
-  --acc:#e0648f;
-  --noise-blend:screen; --noise-op:.13;
-  --display:"Oswald","Arial Narrow","Impact",sans-serif;
-  --mono:"IBM Plex Mono","Courier New",monospace;
-  box-sizing:border-box;
-  padding-top:env(safe-area-inset-top,0px);
-  padding-bottom:env(safe-area-inset-bottom,0px);
-}
-@media (prefers-color-scheme:light){
-  :root:not([data-theme="dark"]){
-    --bg:#d7d2c4; --ink:#0d0d0c; --dim:#5d594f; --rule:#0d0d0c;
-    --acc:#c2205a; --noise-blend:multiply; --noise-op:.42;
-  }
-}
-:root[data-theme="light"]{
-  --bg:#d7d2c4; --ink:#0d0d0c; --dim:#5d594f; --rule:#0d0d0c;
-  --acc:#c2205a; --noise-blend:multiply; --noise-op:.42;
-}
-*{box-sizing:inherit}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
-body{
-  margin:0;min-height:100vh;background:var(--bg);color:var(--ink);
-  font-family:var(--mono);font-size:1rem;line-height:1.75;overflow-x:hidden;
-  -webkit-font-smoothing:antialiased;
-}
-a{color:inherit}
-a:focus-visible,button:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>ТУШЛАР МОЗОРИ | Жонтемир</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Oswald:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* DARK MODE (Default) */
+            --bg-color: #0c0c0b;
+            --text-primary: #d9d4c7;
+            --text-secondary: #8f8a80;
+            --accent: #e0648f;
+            --white: #f0eee7;
+            --black: #050505;
+            --grain-opacity: 0.15;
+            --tape-bg: rgba(224, 100, 143, 0.15);
+            --border-color: #333;
+        }
 
-/* донадорлик — ксерокс шовқини */
-.grain,.streaks{position:fixed;inset:-50%;pointer-events:none;z-index:3}
-.grain{
-  width:200%;height:200%;
-  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-  mix-blend-mode:var(--noise-blend);opacity:var(--noise-op);
-  animation:shake 1s steps(6) infinite;
-}
-@keyframes shake{
-  0%{transform:translate(0,0)}17%{transform:translate(-3%,2%)}33%{transform:translate(2%,-3%)}
-  50%{transform:translate(-2%,-1%)}67%{transform:translate(3%,3%)}83%{transform:translate(-1%,2%)}100%{transform:translate(0,0)}
-}
-.streaks{
-  inset:0;z-index:2;opacity:.5;
-  background:
-    linear-gradient(90deg,transparent 7%,rgba(128,128,128,.13) 7.15%,transparent 7.35%,transparent 41%,rgba(128,128,128,.09) 41.1%,transparent 41.5%,transparent 88%,rgba(128,128,128,.14) 88.2%,transparent 88.5%);
-}
-body::after{ /* қирралардаги қоронғулик */
-  content:"";position:fixed;inset:0;pointer-events:none;z-index:4;
-  background:radial-gradient(ellipse at 50% 45%,transparent 55%,rgba(0,0,0,.55) 120%);
-}
+        [data-theme="xerox"] {
+            /* XEROX MODE */
+            --bg-color: #dedbd2;
+            --text-primary: #11110f;
+            --text-secondary: #555;
+            --accent: #d82b6a;
+            --white: #050505;
+            --black: #f0eee7;
+            --grain-opacity: 0.4;
+            --tape-bg: rgba(216, 43, 106, 0.2);
+            --border-color: #999;
+        }
 
-/* юқори панель */
-.bar{
-  position:fixed;top:0;left:0;right:0;z-index:6;
-  padding:calc(env(safe-area-inset-top,0px) + .8rem) 1.2rem .8rem;
-  display:flex;justify-content:space-between;align-items:center;
-  font-size:.85rem;
-}
-.bar a,.bar button{
-  background:var(--bg);color:var(--ink);border:2px solid var(--rule);
-  font:inherit;padding:.15rem .7rem;cursor:pointer;text-decoration:none;
-}
-.bar a:hover,.bar button:hover{background:var(--ink);color:var(--bg)}
-.bar .hide{visibility:hidden}
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-main{position:relative;z-index:1}
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: 'IBM Plex Mono', monospace;
+            overflow-x: hidden;
+            transition: background-color 0.3s, color 0.3s;
+        }
 
-/* муқова */
-.cover{
-  min-height:100vh;min-height:100svh;display:flex;flex-direction:column;justify-content:center;
-  padding:6rem clamp(1.2rem,6vw,5rem) 4rem;
-}
-.title{
-  font-family:var(--display);font-weight:700;text-transform:uppercase;
-  font-size:clamp(4.2rem,21vw,17rem);line-height:.86;letter-spacing:-.01em;margin:0;
-  text-shadow:.035em 0 var(--acc);
-  animation:flick 8s steps(1) infinite;
-}
-.title .w{display:block;opacity:0;animation:slam .5s steps(4) forwards}
-.title .w:nth-child(1){animation-delay:.25s}
-.title .w:nth-child(2){animation-delay:.9s}
-@keyframes slam{
-  0%{opacity:0;transform:scale(1.25) translateX(-3%)}
-  40%{opacity:1;transform:scale(.97) translateX(1.5%)}
-  70%{opacity:.4;transform:translateX(-1%)}
-  100%{opacity:1;transform:none}
-}
-@keyframes flick{
-  0%,93%,100%{transform:none;opacity:1}
-  94%{transform:translateX(-.8%);opacity:.7}
-  95%{transform:translateX(.6%);opacity:1}
-  96%{transform:translateX(0);opacity:.55}
-  97%{opacity:1}
-}
-.tape{
-  align-self:flex-start;margin:2.2rem 0 0 -.4rem;background:var(--acc);color:#0c0c0b;
-  padding:.35rem 1.1rem;font-weight:500;transform:rotate(-2deg);
-  font-size:clamp(.85rem,2.4vw,1.05rem);
-}
-.rules{margin:3rem 0 0;color:var(--dim);font-size:.95rem}
-.rules p{margin:0}
-.rules b{color:var(--ink);font-weight:500}
-.enter{
-  align-self:flex-start;margin-top:2.6rem;font-family:var(--display);font-weight:700;
-  font-size:1.6rem;text-transform:uppercase;text-decoration:none;
-  padding:.35rem 1.6rem;background:var(--ink);color:var(--bg);border:3px solid var(--ink);
-}
-.enter:hover{background:var(--bg);color:var(--ink)}
+        /* Accessibility */
+        :focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 4px;
+        }
 
-/* мундарижа */
-.toc{padding:6rem clamp(1.2rem,6vw,5rem) 4rem;max-width:1100px;margin:0 auto}
-.toc-head{display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;margin-bottom:2.2rem}
-.toc h1{
-  font-family:var(--display);font-weight:700;text-transform:uppercase;
-  font-size:clamp(2.6rem,9vw,6rem);line-height:.9;margin:0;text-shadow:.04em 0 var(--acc);
-}
-.stamp{
-  font-family:var(--display);font-weight:700;text-transform:uppercase;color:var(--acc);
-  border:3px solid var(--acc);padding:.1rem .8rem;transform:rotate(-7deg);
-  font-size:clamp(1rem,3vw,1.5rem);white-space:nowrap;opacity:.9;
-}
-.rows{border-bottom:3px solid var(--rule)}
-.row{
-  display:grid;grid-template-columns:4.2rem 1fr;gap:1rem;align-items:center;
-  padding:1rem .8rem;border-top:3px solid var(--rule);text-decoration:none;position:relative;
-}
-.no{
-  font-family:var(--display);font-weight:700;font-size:2.6rem;line-height:1;
-  color:transparent;-webkit-text-stroke:1.5px var(--ink);
-}
-.rt{font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:clamp(1.4rem,4.4vw,2.6rem);line-height:1.05}
-.fl{display:none}
-.rt small{display:block;font-family:var(--mono);font-weight:400;text-transform:none;font-size:.85rem;color:var(--dim);margin-top:.2rem}
-.row:hover,.row:focus-visible{background:var(--ink);color:var(--bg)}
-.row:hover .no,.row:focus-visible .no{-webkit-text-stroke-color:var(--bg)}
-.row:hover .rt small,.row:focus-visible .rt small{color:var(--bg)}
-.row:hover::after,.row:focus-visible::after{
-  content:"";position:absolute;right:0;top:0;bottom:0;width:.7rem;background:var(--acc);
-}
+        /* SVG Grain Overlay */
+        .noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: var(--grain-opacity);
+            mix-blend-mode: overlay;
+        }
 
-/* ўқиш */
-.reader{max-width:40rem;margin:0 auto;padding:7rem 1.4rem 3rem}
-.kicker{margin:0 0 1rem;color:var(--dim);font-size:.9rem}
-.kicker b{color:var(--acc);font-weight:500}
-.ptitle{
-  font-family:var(--display);font-weight:700;text-transform:uppercase;
-  font-size:clamp(2.6rem,11vw,5.6rem);line-height:.95;margin:0 0 3rem;
-  text-shadow:.04em 0 var(--acc);word-break:break-word;
-}
-.st{margin:0 0 2rem}
-.l{display:block;min-height:1.75em;opacity:0;font-size:clamp(1rem,2.5vw,1.1rem)}
-.l.in{opacity:1;animation:cut .38s steps(1)}
-@keyframes cut{
-  0%{opacity:0;transform:translateX(-7px)}
-  25%{opacity:1;transform:translateX(5px)}
-  50%{opacity:.15;transform:translateX(-2px)}
-  75%{opacity:1;transform:translateX(2px)}
-  100%{opacity:1;transform:none}
-}
-.cut{height:.7rem;width:42%;background:var(--ink);margin:3.4rem 0 3.2rem;position:relative}
-.cut::after{content:"";position:absolute;left:0;bottom:-.7rem;height:.25rem;width:100%;background:var(--acc)}
-.sign{margin:4rem 0 0;text-align:right;color:var(--dim)}
-.sign b{color:var(--acc);font-weight:500}
+        @keyframes flicker {
+            0% { opacity: 1; }
+            3% { opacity: 0.4; }
+            6% { opacity: 1; }
+            7% { opacity: 0.4; }
+            8% { opacity: 1; }
+            9% { opacity: 1; }
+            10% { opacity: 0.1; }
+            11% { opacity: 1; }
+            100% { opacity: 1; }
+        }
 
-.pn{
-  max-width:40rem;margin:0 auto;padding:2rem 1.4rem calc(4rem + env(safe-area-inset-bottom,0px));
-  display:flex;justify-content:space-between;gap:1rem;
-}
-.pn a{
-  text-decoration:none;max-width:48%;border:2px solid var(--rule);padding:.7rem 1rem;font-size:.85rem;
-  background:var(--bg);color:var(--dim);line-height:1.4;
-}
-.pn a span{display:block;font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:1.25rem;color:var(--ink)}
-.pn a:hover{background:var(--ink);color:var(--bg)}
-.pn a:hover span{color:var(--bg)}
-.pn .next{margin-left:auto;text-align:right}
+        .view {
+            display: none;
+            min-height: 100vh;
+            width: 100%;
+            padding: calc(env(safe-area-inset-top) + 2rem) calc(env(safe-area-inset-right) + 2rem) calc(env(safe-area-inset-bottom) + 2rem) calc(env(safe-area-inset-left) + 2rem);
+        }
 
-@media (min-width:760px){
-  .row{grid-template-columns:5rem 1fr 18rem}
-  .fl{display:block;color:var(--dim);font-size:.85rem;line-height:1.45}
-  .row:hover .fl,.row:focus-visible .fl{color:var(--bg)}
-  .no{font-size:3.4rem}
-}
-@media (prefers-reduced-motion:reduce){
-  .grain{animation:none}
-  .title{animation:none}
-  .title .w{animation:none;opacity:1}
-  .l{opacity:1}
-  .l.in{animation:none}
-}
-</style>
+        .view.active {
+            display: block;
+        }
+
+        /* Header Controls */
+        header {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        button.invert-btn {
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            font-family: 'IBM Plex Mono', monospace;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+        button.invert-btn:hover {
+            background: var(--accent);
+            color: var(--bg-color);
+        }
+
+        /* Decor Metadata */
+        .metadata {
+            position: fixed;
+            font-size: 10px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            pointer-events: none;
+            z-index: 50;
+        }
+        .meta-tl { top: 20px; left: 20px; }
+        .meta-bl { bottom: 20px; left: 20px; }
+
+        /* Cover Page */
+        #view-cover {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding-left: 10vw;
+            position: relative;
+        }
+
+        h1.cover-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: clamp(64px, 13vw, 190px);
+            line-height: 1;
+            text-transform: uppercase;
+            animation: flicker 4s infinite, film-cut 0.5s steps(3, end);
+        }
+
+        @keyframes film-cut {
+            0% { transform: translateY(20px); opacity: 0; }
+            50% { transform: translateY(-10px); opacity: 0.5; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        .tape {
+            background: var(--tape-bg);
+            color: var(--accent);
+            padding: 5px 15px;
+            transform: rotate(-2deg);
+            margin-top: 1rem;
+            font-size: clamp(14px, 2vw, 20px);
+            border: 1px solid rgba(224, 100, 143, 0.3);
+            text-shadow: 1px 1px 0px rgba(0,0,0,0.5);
+            display: inline-block;
+        }
+
+        .cover-rules {
+            margin-top: 3rem;
+            color: var(--text-secondary);
+            font-size: clamp(12px, 1.5vw, 16px);
+            line-height: 1.6;
+        }
+
+        .enter-btn {
+            margin-top: 4rem;
+            display: inline-block;
+            text-decoration: none;
+            color: var(--bg-color);
+            background: var(--accent);
+            padding: 10px 30px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 24px;
+            transition: transform 0.2s;
+        }
+        .enter-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* TOC Page */
+        #view-toc {
+            max-width: 900px;
+            margin: 0 auto;
+            padding-top: 100px;
+        }
+
+        .stamp {
+            display: inline-block;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            padding: 10px 20px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 24px;
+            transform: rotate(-7deg);
+            margin-bottom: 3rem;
+            opacity: 0.8;
+        }
+
+        .toc-list {
+            list-style: none;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .toc-item a {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-primary);
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+            transition: padding-left 0.3s;
+        }
+
+        .toc-item a::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--accent);
+            transform: scaleY(0);
+            transform-origin: bottom;
+            transition: transform 0.3s;
+        }
+
+        .toc-item a:hover {
+            background: rgba(224, 100, 143, 0.05);
+            padding-left: 20px;
+        }
+        .toc-item a:hover::before {
+            transform: scaleY(1);
+        }
+
+        .toc-num {
+            font-family: 'Oswald', sans-serif;
+            font-size: 20px;
+            color: var(--text-secondary);
+            width: 50px;
+            transition: color 0.3s;
+        }
+        .toc-item a:hover .toc-num {
+            color: var(--accent);
+        }
+
+        .toc-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 28px;
+            flex-grow: 1;
+        }
+
+        /* Poem Page */
+        .poem-container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 80px 0 100px 0;
+        }
+
+        .nav-back {
+            display: inline-block;
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            font-size: 14px;
+        }
+        .nav-back:hover {
+            color: var(--accent);
+        }
+
+        .poem-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: clamp(32px, 6vw, 64px);
+            margin-bottom: 1rem;
+            text-shadow: 4px 0 var(--accent);
+            text-transform: uppercase;
+        }
+
+        .poem-author {
+            color: var(--text-secondary);
+            margin-bottom: 4rem;
+            font-size: 16px;
+        }
+        .poem-author span {
+            color: var(--accent);
+        }
+
+        .poem-content {
+            font-size: 20px;
+            line-height: 1.9;
+            white-space: pre-wrap;
+        }
+
+        .poem-line {
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .poem-line.visible {
+            animation: line-reveal 0.3s steps(3, end) forwards;
+        }
+
+        @keyframes line-reveal {
+            0% { opacity: 0; }
+            33% { opacity: 0.4; }
+            66% { opacity: 0.15; }
+            100% { opacity: 1; }
+        }
+
+        /* Navigation Bottom */
+        .poem-nav-bottom {
+            margin-top: 6rem;
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px dashed var(--border-color);
+            padding-top: 2rem;
+        }
+
+        .poem-nav-bottom a {
+            color: var(--accent);
+            text-decoration: none;
+            font-family: 'Oswald', sans-serif;
+            font-size: 18px;
+            text-transform: uppercase;
+        }
+        .poem-nav-bottom a:hover {
+            text-decoration: underline;
+        }
+
+        /* Progress Bar */
+        #read-progress {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 2px;
+            height: 0%;
+            background: var(--accent);
+            z-index: 900;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 1rem;
+            font-size: 12px;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--border-color);
+            margin-top: 4rem;
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            .view {
+                padding: calc(env(safe-area-inset-top) + 1rem) 18px calc(env(safe-area-inset-bottom) + 1rem) 18px;
+            }
+            .poem-content {
+                font-size: 17px;
+                line-height: 1.8;
+            }
+            .toc-item a {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 15px 0;
+            }
+            .toc-num {
+                font-size: 14px;
+                margin-bottom: 5px;
+            }
+            #view-cover {
+                padding-left: 0;
+                align-items: center;
+                text-align: center;
+            }
+        }
+
+        /* Reduced Motion */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
+            .poem-line {
+                opacity: 1 !important;
+            }
+        }
+    </style>
 </head>
 <body>
-<div class="streaks" aria-hidden="true"></div>
-<div class="grain" aria-hidden="true"></div>
-<div class="bar">
-  <a id="back" href="#/toc">Мундарижа</a>
-  <button id="mode" type="button" aria-label="Ранглар инверсияси">Инверсия</button>
-</div>
-<main id="app"></main>
+    
+    <svg class="noise">
+        <filter id="noiseFilter">
+            <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/>
+        </filter>
+        <rect width="100%" height="100%" filter="url(#noiseFilter)"/>
+    </svg>
 
-<script>
-/* ---------- ШЕЪРЛАР ---------- */
-var AUTHOR = "Жонтемир";
+    <header>
+        <button class="invert-btn" id="invertBtn">ИНВЕРСИЯ</button>
+    </header>
 
-var POEMS = [
-{ id:"yuk", title:"Юк", t:"Юк", sub:"олти парча", fl:"Лабинга аталган ажалвор бўсаларнинг юки елкамда", parts:[
-"Лабинга аталган ажалвор\nбўсаларнинг юки елкамда.\nСочларинг бўйидан мосиво ёстиқ,\nбирга кўрилмаган тушлар фарёди\nэшшакдай мингашиб олган елкамга.\n\nЮким оғир,\nбазўр ҳарсиллаб\nбормоқдаман юрагинг сари.\n\nУчиб юрган одамларга боқ,\nҳавасинг келмасми жоним, ҳавасинг?\nАгарда қизғансанг бутун умрингни,\nчақмоқ соясида кўришамиз, кел!",
-"Бу ғурбат қисматнинг туб-тубларида\nбир шарпа яшайди\nғарибдан ғариб.\nО, унинг манглайин оқартирмоқ-чун\nмиллион йил қорасин юрдим ахтариб.\nТераклар шамолга сочган яфроқлар\nйўлини чизганди томирларида.\nМен уни изладим кампир баҳору\nнавжувон кузакнинг ёмғирларидан.\nТопмадим,\nбижғиган ғурбат кўлидан\nқанча хўрак отмай чиқармади бош.\nИсмини кафтларим чизиқларига\nўйиб ҳам бермади бирорта наққош.\nТушларим уюрин ҳайдаб борар маст,\nинтилган ойимга қараб увлайди.\nМен ҳали етмаган қудуқда\nқўтир босган итин сувлайди.\nҚувлайди тасаввур қушларин \"кишт-кишт\",\nортидан тимдалар қорачиғимни.\nу борки, эшигин очмайди беҳишт,\nу борки, эшитмас дўзах йиғимни.\nБу ғурбат қисматнинг туб-тубларида\nбир тўнғиз яшайди, бир валий, бир шоҳ.\nМен — ҳаттот, вазифам ўла-ўлгунча\nунинг борлигини қилурман иншо!",
-"Ойдан узиб олинган ёғду\nайланар кўзларим доирасида,\nайланар бошим.\nТуйғуга тўйинган сулув кечанинг\nкўксига санчилган киприкларимни\nбармоқлар учида силайди бир қиз.\nШивирлайман:\nсенмисан... сенми?\nбош-кети кўринмас карвон ортидан\nэргашиб келдингми охир ёнимга?\n\nАйланар бошим.\nКоинот саҳросида руҳ.\nЕлкасида сайёраларнинг\nоёқ излари бор — баҳайбат излар...\n\nШивирлар:\n\"бунча сийрак киприкларингиз?\"\nСени излаб кетди қанчаси.\nНаҳот учратмадинг йўлда бировин?\nЙиғлар.\nЛабимга тўкилар кўзёш эмас, май —\nайланар бошим.\nҚўнмоққа жой борми кимсасиз?\nЭгаллаб олинган ҳатто коинот!\n\nШивирлайман:\nюрагинг бўшми?\nСаволимга қайтармай жавоб,\nкўзларимга экиб кўзларин\nбитталаб юлар қиз киприкларини...",
-"Сенда муҳаббат йўқ, кўзингда фақат\nжимирлайди очлик қуйқаси.\nХаёлингни ёритмай шафақ\nзулмат билан кетар уйқашиб.\n\nКамалакдан тўкилган бўёқ\nжирканч! Ёмғир ботқоққа ёғсин.\nҚиёматни қаритган қуёш\nқуёш эмас — жаҳаннам оғзи.\n\nСенда муҳаббат йўқ, нафрат бокарам,\nгўдак ҳислар ҳирсга чўмилган.\nДудоғинга юзлаб бокира\nўпичлар тириклай кўмилган.\n\nОчсан фақат, очсан бу қадар,\nбурнингача ботиб наҳсга\n\"қалбни аввал ким еб тугатар?\"\nтуфроқ билан кирган баҳсга —\nочофатсан, очофат махлуқ!",
-"Нимани излайсан тушимга тушиб?\nҚармоқ ташлаб қорачиғимга\nкимнинг жасадини овламоқчисан?\n\nҚутурган шоқолинг лабимни ялар,\nялар томоғимни,\nгўёки Исо\nмихланган хочману\nусти-бошим қон.\n\nТирноқларим остига қоплаб\nтўкасан алвасти тухумларини.\nУларни ютгани келган илонни\nчайнаб ташлар қозиқ тишларинг.\n\nКиндигимга чиркин бармоғинг тиқиб\nкавлайсан,\nнимани излайсан ахир?\nЮракми? Қийнама,\nчўтир юзинга\nтуфуриб ташлайман уни истасанг.\n\nТангрим, кечаларинг нақадар\nу\nз\nу\nн\nкўмиб келай тонгда тириклай —\nкўрсат менга тушлар мозорин, кўрсат!",
-"Жим кет, жим кет, жим.\nМенда ҳам савол бор, жавоб йўқ.\nТилини танглайга босган зоҳиддек,\nнафратинга едириб қуйруқ\nжим кет, жим кет, жим.\n\nБу боғлар шамолнинг ошиғи,\nошиқки, безабон, пажмурда.\nО, мен ҳам танҳолик лошини\nелкалаб ўтишга мажбурман.\n\nКет, озодлик шаробини ич!\nКўзёшингдан унмайди Тубо.\nИшқ — юракни қиймалар қилич,\nё жодугар, ё гўзал ҳубоб.\n\nСавол берма, Худо эмасман!\nЯна мунг лаҳадга бойиди ичим.\nЁлвораман, бир сўз демасдан\nжим кет, жим кет, жим..."
-]},
+    <div class="metadata meta-tl">ARCHIVE No. 001</div>
+    <div class="metadata meta-bl">FOUND / UNKNOWN DATE</div>
 
-{ id:"qorqinchli", t:"Қўрқинчли одамман, ярамас", fl:"Бойқуш сайрар тилимга қўниб", text:
-"Қўрқинчли одамман, ярамас,\nБойқуш сайрар тилимга қўниб.\nЮрагимдан куюк аралаш\nҲиди келар бадбўй қайғунинг.\n\nКиприкларим чаённинг ниши,\nОдатимдир ириллаб ҳуриш.\nТабиатнинг баҳор, ёз, қиши\nАнгоримга бошлаган уруш.\n\nСоч остида ўрмалар илон,\nИчим қора, тўлмас фарахга.\nКоинотнинг сарвари, Илоҳ,\nМенга қараб дўзах яратган.\n\nҚизғанади ер қабрларин,\nИт ётмайди чўккан жойимга.\nЎттиз тўққиз ғам абрлари\nТуфлаб кетган шўрхок лойимга.\n\nҚўрқинчли одамман, дардтарош,\nНари туринг, ерлик санамлар.\nГўзалликка беролмайман дош —\nКўзгулардан нафратланаман!" },
+    <div id="read-progress"></div>
 
-{ id:"telba", title:"Телба", t:"Телба", fl:"Энг гўзал қўшиқни тўппонча куйлар", text:
-"Ноябрь — куз тутган сўнгги тасодиф,\nУйғонар бор туйғу, қўзғолар бор ҳис.\nТўқнашди қувончинг билан азобим,\nЮзингда ҳайрат, қўлингда Борхес.\n\nКейин сайр,\nТушдан то шомга довур сайр,\nҚаҳва атрофида тортинчоқ суҳбат.\nСенинг кўзларингда яллиғланар майл,\nМенинг хаёлимда — ижара... муҳлат...\n\nҚўққис ўйларингга ирғитаман тош:\nНега Маяковский ўзини отган?\n\"Билмайман.\"\nУ билган (гарчи ҳали ёш),\n\"Энг гўзал қўшиқни тўппонча куйлар!\"\n\nЖин урсин!\nҚуролга руҳсат йўқ бизнинг ватанда,\nАйни дам жонидан тўйганлар озми?\nҚўрқувдан яноғинг титрар \"эй банда,\nИлтимос, бу ҳақда гапирманг, ёзманг\".\n\nБлок, Цветаева очликдан ўлган!\nШоир ким,\nТириклар шоир учун ким?\n\"Қўйинг, бари ўтмишда бўлган\",\nТушун,\nТўппончадай келар куйлагим,\nАммо\nНоябрь — қаҳратон музейга чипта,\nНоябрь — муаллақ яхлаган руҳлар.\nЮпун этагинга ёпишиб итдай\nСилтайди сўз эмас, ижара... муҳлат...\n\nЎйлайман қарғалар нақадар бахтли,\nНа ўқишни билар, нада ёзишни.\nИстайман, истайман сен истагандай\nОлов дудоғинга олов босишни!\nАммо...\nЧекаман.\nТурамиз.\nКул ҳўплаган бор туйғу, бор ҳис.\nСоям каби одимлайсан жим —\nЮзингда изтироб, қўлингда Борхес.\n\nАлвидо, сукунат. Кўнглингни уқдим,\nУйга кир, дардингни китобга бела.\nПешонам туш кўрар муқаддас ўқни,\nТангрим, тўппончадек куйлагим келар!\n\nМана, якунига етди тасодиф,\nЭнди у ҳам ўтган кунлардек сийқа.\nУвв менинг йўргакдан юққан азобим,\nОсилган тилингни қай қайчи қийқар?\n\nҚайтаман кўчалар шовқин, бефарах,\nДумалоқ муз мисол кўкдан ой бўйлар.\nЭслаб қол, ноябрь, Маяковский ҳақ,\nЭслаб қол, ноябрь, муҳаббат эмас —\nЭнг гўзал қўшиқни тўппонча куйлар!\nЭнг гўзал қўшиқни тўппонча куйлар!\n\nПешонам туш кўрар муқаддас ўқни." },
+    <!-- COVER -->
+    <main id="view-cover" class="view active">
+        <h1 class="cover-title">ТУШЛАР<br>МОЗОРИ</h1>
+        <div class="tape">Жонтемир — шеърлар тўплами</div>
+        <div class="cover-rules">
+            Биринчи қоида: жим кет.<br>
+            Иккинчи қоида: жим кет.
+        </div>
+        <a href="#/toc" class="enter-btn">КИРИШ</a>
+    </main>
 
-{ id:"tashrif", title:"Ташриф", t:"Ташриф", date:"2018", fl:"Эскириб, кирланган туйғулар", text:
-"Эскириб, кирланган туйғулар,\nҲилпираркан мезондай дорда.\nЁмғир чанқоқ кечани сувлар,\nИзиллайди шамол айбдордай.\n\nЭшигингни черткилайди куз,\nҚўзғаласан ёшингни артиб.\nВа тўхтайсан,\nҚалбингдан ҳануз,\nКетмаганда баҳорнинг дарди.\n\nЮрак ҳамон тақиллар: тиқ-тиқ,\nСени севар! Оғринмай кутмиш.\nКўзларингга санчилар қаттиқ,\nДорга осиб қўйилган ўтмиш.\n\nТашқарида бахт турар, диққат,\nЭгнида лов ёниб беқасам.\n...хотирани жойлаб сандиққа,\nМуҳаббатни кийиб чиқасан!\n\nГул тутолмас табиат фақир,\nҚувончдан-ку лабинг бурганинг.\nАнгладингми, қизғанчиқ тақдир,\nСени нега асраб юрганин?.." },
+    <!-- TOC -->
+    <main id="view-toc" class="view">
+        <div class="stamp">11 ШЕЪР</div>
+        <ul class="toc-list" id="tocList"></ul>
+    </main>
 
-{ id:"maslahat", title:"Маслаҳат", t:"Маслаҳат", fl:"Алоуддин, сир йўқ, жинчироқ", text:
-"Алоуддин, сир йўқ, жинчироқ\nИчини таптанак боғлаган.\nЭртакка сиғмайди Чин, Ироқ,\nҚор тушган Бобилдай боғларга.\n\nБотир эмас кенжа ботирлар,\nУчдан ошган йўлларнинг сони.\nСочин юлар қорин хотиржам,\nБир Муҳаммад, бирда Исонинг.\n\nЧоҳда чириб битди Алпомиш,\nБойчиборлар қўшилган қўшга.\nҚотиб ухлар бошда парболиш,\nОдил шоҳлар келмай жунбушга.\n\nЗулмат ташир қадим нурзамбил,\nАсқартоққа етмас пайконинг.\nСиёвушдан қолган Сусанбил\nСуварагу қузғун макони.\n\nАлоуддин, аламо-о, алам,\nЁлғонмиди \"дунё — ҳоки зар\".\nБулғамасдан кўппаклар ялаб,\nЭртакка қайт, эртак — покиза." },
+    <!-- POEM PAGE -->
+    <main id="view-poem" class="view">
+        <div class="poem-container">
+            <a href="#/toc" class="nav-back">← МУНДАРИЖА</a>
+            <h1 class="poem-title" id="poemTitle"></h1>
+            <div class="poem-author">Жонтемир <br><span>@Jontemir</span></div>
+            <div class="poem-content" id="poemContent"></div>
+            
+            <div class="poem-nav-bottom" id="poemNav"></div>
+        </div>
+        
+        <footer>
+            ТУШЛАР МОЗОРИ<br>Жонтемир<br>@Jontemir<br><br>
+            END OF ARCHIVE
+        </footer>
+    </main>
 
-{ id:"madh", title:"Мадҳ", t:"Мадҳ", fl:"Қорачиғим қамаштирган нур", text:
-"Қорачиғим қамаштирган нур,\nДудоғингдан тўкилган бўса...\nҚалб қувилган маво пойига\nҚайтиш учун тўшалган йўлсан.\n\nКийик ўтлар туш яйловида,\nЎпишарди ошиқ юлдузлар.\nСимиллатар ғам қуршовида\nУйғонардим қалтираб, музлаб.\n\nСовуқ эди, суяк — сумалак,\nҚурандоз фол кўрмаган сени.\nВа захлаган томирларимга\nБошлаб келдинг олов рақсини!\n\nЮрагимни ғажиётган ит\nЗанжир сўраб қўлингни ялар.\nНечун ҳайрат? Ахир сен ҳирсни\nСевиб қолган биринчи малак!\n\nСакраб чиқди тушимдан кийик,\nМиниб олган уни набийми?\nДевонаман ўнгимда кўриб,\nЮлдузларнинг қайноқ лабини.\n\nСиғинаман, руҳни гўдакдек\nЎшал кийик сути билан боқ.\nЯшир барча хўракларимни,\nОртиқ ишққа ташламай қармоқ.\n\nҚорачиғим қамаштирган нур,\nДудоғингдан тўкилган бўса.\nҚалб қувилган маъво пойига\nҚайтиш учун тўшалган йўлсан!" },
+    <script>
+        // Barcha she'rlar to'liq hajmda kiritildi. 
+        const poems = [
+            {
+                id: "chilyosin",
+                title: "ЧИЛЁСИН",
+                content: `Қовурғасин синдирганда шом,
+Кун беркитгач жиноятларин.
+Қамчиларкан тентак шамолни,
+Осмон ўқир жин оятларин.
+Ғувв-ғувв, ғирр-ғирр...
+Жазавга тушар жавониб,
+Ерни қаттиқ тишлайди илдиз.
+Манглайига тираб ҳавонинг,
+Ўқ узади елдирим — милтиқ.
+Ғувв-ғувв, ғирр-ғирр...
+Оғочларга сачрайди қўрқув,
+Олам кияр қора калапўш.
+Кўрмай дея жазокор турқин,
+Тешик излар гуноҳ — каламуш.
+Ғувв-ғувв, ғирр-ғирр...
+Илдамлайди юлдузлар ўтлаб,
+Қўйчивонга қўйган ихлосин.
+Сув пуркаркан мулло булутлар,
+Табиатни қилар "Чилёсин".
+Ғувв-ғувв, ғирр-ғирр...
+Жинлар қочар девлар қошига,
+Девлар чопар кўзаси томон.
+Кўзгу тутиб узук тошига,
+Қаҳ-қаҳ отар фалак — Сулаймон!
+Ғувв-ғувв, ғирр-ғирр...`
+            },
+            {
+                id: "jontemir-1",
+                title: "ЖОНТЕМИР",
+                content: `Эй қаноти кашта капалак,
+Эй руҳимни чайқатган балиқ.
+Очилмаган гулларим тала,
+Сув кўрмаган саҳройимда балқ!
+Эй сўлаги муборак илон,
+Эй туёғи чўғ сочар кийик.
+Тасодифий дардларимни чақ,
+Эмиз сутинг келганда ийиб!
+Эй кўксимни кўзлаган сулув,
+Эй Исрофил дам урган машшоқ.
+Моғорлаган тушларимни юв,
+Куйсираган торларимни боқ!
+Эй косаси тилло муғбача,
+Эй Каъбанинг эгаси, ориф.
+Шаробингни иймонимга қуй,
+Сажжодани нафсимга тўша!
+Эй ёғмурлар олиб келган бўй,
+Эй тийғидан ғайб ўпган ханжар.
+Вужуд — ирганч балчиққа қориш,
+Илвираган тасаввурни сўй!`
+            },
+            {
+                id: "jontemir-2",
+                title: "ЖОНТЕМИР",
+                content: `Ажиб ҳолга тобеъман, жоним,
+Балиқ топдим саҳро қаъридан.
+Ғусл олар гўдак иймоним,
+Ўзга олам дарёларидан.
+Чанқадимми, илдиз сўраман,
+Тўйинаман чайнаб ҳавони.
+Момочақмоқ сочин ўраман,
+Эгарлайман турна карвонин.
+Тимдалайман қадим гўрларни,
+Келтираман суяк гулханга.
+Чимматини ечмас ҳурларнинг
+Ишвасидан тиккум йўлхалта.
+Кўзларимга тўлган ғам — ҳовуз
+Бақалари сайрар — қалби тор.
+Жим жойлайман қопга бир ҳовуч:
+Алвидо! Алвидо!! Алвидо!!!
+Ажиб ҳолга тобеъман, жоним.`
+            },
+            {
+                id: "qargalar",
+                title: "ҚАРҒАЛАР ҚАРИДИ",
+                content: `Қарғалар қариди, Қаршининг гавжум
+боғлари кимсасиз,
+дарахтлари гунг.
+Дўстим, мен дайди қалб қўлида қамчи,
+Сен девор ортига қилиндинг сургун.
+Боргим келмас ўшал шаҳарга, боргим,
+Тилинган, эзилган, қийилган чора.
+Чол каби кўринар кўчалар ҳорғин,
+Қадрини йўқотган Қарлуқ, Муборак.
+Қиш келди. Совуқдир панжара орти?
+Тушларим жаннатдир, яша бемалол.
+Шароб илтиганда ёқамдан тортиб,
+Ёнингга судрайди ажина шамол.
+Қўлим калта ахир, тилим ҳам қисир,
+Қўшишдан қўрқаман ғуссанга ғусса.
+Хаёлан ҳавода бир денгиз чизиб,
+Ташлайман соғинчдан ясалган кўза.
+Биламан, у сенга етиб бормайди,
+Биламан, ўртада девор, панжара.
+Токай ҳақиқатни дунё хўрлайди,
+Токай бўйнимизда малъун панжалар?!
+Дўстим, кўзларимнинг оқидаги оҳ
+Тилимдан алжираб тўкилар — мастман.
+Сен эмас, мен озод ҳолимда гумроҳ,
+"Пивонинг тубига чўкади ҳасрат".
+Ёлғизман, елкамда нигоҳинг изи,
+Сўзлар қуршаб олган: сиртмоқ, қийноқ, ўқ.
+Қиш келди, дўстгинам илвирсдай писиб,
+Тушларим — жаҳаннам, яқинлашма, йўқ!
+Қарғалар қариди, Қаршининг гавжум
+боғлари кимсасиз,
+дарахтлари гунг...`
+            },
+            {
+                id: "shahrizoda",
+                title: "ШАҲРИЗОДА",
+                content: `Шаҳризода, чироқлар ўчди,
+Ёнди осмон ёнарқуртлари.
+Малоиклар заминга кўчди,
+Ташлаб ҳурлар қурган юртларин.
+Шаҳризода, қанотимни юв,
+Бўйнимдан қуч, кўзимни беркит.
+Ой кўксидан томчилар инжу,
+Чўмиламиз остида, ээркин.
+Ёпишади сўзлар сочимга,
+Киприкларим, бармоғимда сўз.
+Кўр, коинот тор қучоғимда,
+Гавҳаримга суйкалар юлдуз.
+Шивирлайман, ёдлаб ол барин,
+Менсимайди қоғозни бу ҳол.
+Қуршаганда ғайб шамоллари,
+Ўзингдан чиқ, ўзингда йўқол.
+Совқотдингми, қуёш юнгидан
+Тўн қавиймиз, сабр қил, толма.
+Минг йил учиб жаннат сўнггига
+Етолмаган Жибрилдай лолман.
+Шаҳризода, қанотимдан ўп,
+Ерда қолди қайчилар, хомуш.
+Сомон йўлин бошоғин чўқиб,
+Учиб борар баҳайбад оққуш...`
+            },
+            {
+                id: "momo",
+                title: "МОМOГИНАМ",
+                content: `"Танҳоликда ўтарми умринг,
+Мен набира, сен фарзанд кутмай?"
+Бунча оғир қайғуга чўмдинг,
+Момогинам, заҳролуд ютма.
+Мен уйландим, фақат хаёлга,
+Болаларим туғилар — ўлик.
+Жойномозин сотиб май олган
+Дарвешларим, бу не кўргулик?
+Мингта оғиз эркимга соқчи,
+Емлаб қолган Ғирот, Бойчибор.
+Янги ранг бер руҳга, Бўёқчи,
+Осмонимда ҳатто ой — чипор.
+Момо, шиддат ичинда кечмиш
+Яфроқ умрим, титроқ юрагим.
+Сиғинганим савдолар ҳечми?
+Жазавани тиқсанг қўрага!
+Сен улуғсан о, момочинор,
+Суянганинг елвизак, нетай?
+Оёғига қўйганми хино,
+Сўлқиллайди йўл силкиб этак.
+Ўчиргандир тоғлар ёдидан,
+Дарёларим, балиқларим, қум.
+Кўтарилиб вужуд — шотидан,
+Пойингизга етарман бир кун.
+Шунда қалбим куйлаб ҳофиздай,
+Дарвешларим тўкиб майларин.
+Чуғурлайди атрофингизда,
+Тирик қолган болакайларим.
+"Танҳоликда ўтарми..." ўтар,
+Токи ажал қиргунча томоқ.
+Балогардон, ғамларим ўтаб,
+Сен ўтмайсан, ўтмайсан, момо!`
+            },
+            {
+                id: "oy-mehringla",
+                title: "ОЙ, МЕҲРИНГЛА",
+                content: `Ой, меҳрингла юв ичим,
+Сўнг кафтингда нур ичир.
+Қақнусмидимки, куйсам?
+Дам азобу дам савоб
+Мендан қилар андиша.
+Есам — шайтон ҳамтовоқ,
+Ичсам — ҳурлар ҳамшиша.
+Гул, ифоринг уфуриб,
+Қалбимни қўй супуриб.
+Бойқушмидимки, кўнсам?
+Йўл чийлайди найрангбоз,
+Кўзимга тортиб парда.
+Қиличларни қайранг боз —
+Илон қўрқмас заҳардан.
+Тоғ, танингдан бич совут,
+Ўра мисли чирмовуқ.
+Учқунмидимки, сўнсам?
+Олқиш, таъзим, таманно,
+Ёз ўтди қирқ қиш қариб.
+На ишқ топдим, на маъно,
+Пишмадимоо, пишмадим.
+Дард, гуриллат гулханинг,
+Роҳатланай тўлғаниб.
+Одаммидимки, ўлсам!`
+            },
+            {
+                id: "nomsiz",
+                title: "НОМИ БЕРИЛМАГАН ШЕЪР",
+                content: `Майсалар устида оёқяланг юргинг,
+йўл ўртасида чалқанча ётиб
+юлдуз санагинг
+ва чеккинг келади менга қўшилиб.
+Менинг эса, ёмғир остида
+ўпгим келар,
+лабингни қонатиб ўпгим!
+Бўса кесар қайғуни.
+Кейин бемалол
+қалбим яйловида чопишинг мумкин,
+қулоғинга аста эгилиб,
+юлдузлар саноғин шипшийди ҳилол.
+Ҳожат қолмас чекишингга ҳам...`
+            },
+            {
+                id: "hangoma",
+                title: "ҲАНГОМА",
+                content: `1
+Турналар жанубда қишлмас,
+ёзлар,
+Қор завқидан мосиво хилқат.
+Қанотини ўқ еган ғоздай
+Ортларидан термулма илҳақ...
+Илон — қўрқув чиқарган илдиз,
+Ўрмалайди тўғри юракка.
+Бўри — бўйни эгилмас иблис,
+Ғажиб борар йўл-йўлакай...
+Бўрон — бадбин дажжол хурраги,
+Уйғотмагин беҳуда саннаб.
+Миниб олган замин — куррага
+Қалб — жаннату, қорин — жаҳаннам...
+2
+Ер ости — олтин,
+ер ости — гуҳар.
+Аввал подшоҳ тўяр,
+кейин вазир,
+кейин аёнлар.
+Халқ тўймайди,
+халқ — очофат!
+Зарҳал ҳарфларда битилган қатор
+муқаддас китоблар токчада.
+Подшоҳ варақлайди — кулади,
+вазир кулар қўшилиб,
+аёнлар қарсак чалар.
+Халқ ўқимас,
+халқ — кўрсавод!
+Оғзи ланг очиқ қабрлар сафи:
+бирини подшоҳ қазган,
+бирини вазир,
+қолганини аёнлар.
+Халқ тушар тириклай,
+халқ — ботир!
+3
+Бўлинмасми қадимий талқин,
+Кавлагучи борми бистарим?
+Осмон — Тангри оёғи балки —
+Мен бошига етмоқ истарам!
+Парвардадек шимиб бадрни
+Сўлагини оқизсам шамснинг
+Камаярми, ортар гуноҳим?!
+Хайт! Елкамдан босар нигоҳлар.
+Хайт! Ёпишар мутаассиб қўл.
+Хайт! Фикрлар ботар тикондай.
+Хайт! Юмшамас қотиб кетган йўл.
+Тил тагида тўпланган исён
+Тупугини ютаркан базўр,
+Тиржаяман
+Турган
+Чохимдан...
+4
+Тамбур чертдим қулоғингизга,
+(Билганимда довул чалардим)
+Рост сўйилган булоғингизда
+Ювдим ёлғон довуччаларин.
+Ертилмади ёқангиз, пишиқ,
+Ўйилмади кўзларингиз, тош.
+Пойингизга тўкилдим пишиб,
+Қаранг, қандай юввошман, юввош.
+Тасаввурим бирам қилтириқ,
+Емишингиз чайнайман — лаззат.
+Истасангиз кўзгу келтиринг,
+Энди сиздан фарқим йўқ, мазза!
+5
+Ниҳоят телбаман, томирларимда
+оқар дарё-дарё далли балиқлар.
+Олтинларни отиб,
+китобларни сотиб,
+қабрларда ётиб
+рақс тушаман сабрнгизга
+боғлиқ қанотлар.
+Қийқириб-қийқириб рақс тушаман,
+рақс!`
+            },
+            {
+                id: "gazab",
+                title: "ҒАЗАБ",
+                content: `Эй қоғоз, зулук қоғоз,
+сўриб ол мийямдаги
+панглаган умидлару
+йиринглаган орзу қуйқасин.
+На бахт берар, на уйқу,
+на муҳаббат, на туйғу.
+Баҳорни эслатар декабр тонги.
+Ёмғир.
+Деразага қапишган юзим.
+Симёғочга осилган танҳо
+тунчироқ чайқалар шамолда
+сокин.
+Нафис ҳислар харамида хаёлан яйраб
+шеър битолмам гўзаллик ҳақда.
+Чунки ичим нафратга тўла!
+Қоплаб олган бошимни гўё
+соч ўрнига оғриқ симлари.
+Бобом ҳақиқати тушар ёдимга:
+"тўқим ўзгардию
+эшшак ўлмади.
+Энди ўргансак бас
+бадбўйига оғилхонанинг. "
+Ахир курра минишдан тўйдик.
+Эргашгани изидан сўзсиз
+от керак бизга,
+уюрига садоқатли от!
+Ёмғир.
+Деразага қапишган юзим.
+Шеър истайман — айни етилган,
+бирор шоир ўйнашмаган шеър.
+Аммо ичим нафратга тўла!
+Айланаман оғилхонанинг
+бадбўйидан ачишиб димоғ.
+Чўзи-иб-
+чўзи-иб
+ҳанграр ёнимда,
+кечагина янги урилган
+тўқимидан бахтиёр эшшак!
+Эй қоғоз, зулук қоғоз,
+сўриб ол мийямдаги
+панглаган умидлару
+йиринглаган орзу қуйқасин...`
+            },
+            {
+                id: "biz-yana",
+                title: "БИЗ ЯНА УЧРАШДИК",
+                content: `Биз яна учрашдик, ахир кетгандинг,
+Кетганди тасодиф йўли чалкашиб.
+Тангри дарвозасин хиёл чертгандим,
+Ёмғирлар узатди само баркаши.
+Кейинги ўпичлар, ҳислар мастона,
+Юрак эриб оқди мисоли симоб.
+Юввошман оҳуни эмган арслондай,
+Сочларинг исидан ёрилар димоғ.
+Кўчалар, ўткинчи кўзлар ҳайрати,
+Изғирин. Ичимга ўт қала, Зардўшт.
+Ғуллари узилган қулдай яйрадим —
+Биз яна учрашдик, учрашдик сархуш!
+Ким чизиб берган бу қисмат шажарин?
+Ким ёмғир кокилин равон таради?
+Ким ўткир игнаси билан ажабо,
+Қайғуни чиқариб олди ярадан?
+Эзилди кўксинга осилган тошлар,
+Сиққанда хаяжон панжаси — қачов.
+Руҳинга руҳини мен каби ошлаб,
+Яқин келган эмас ҳаттоки Ажал!
+Учрашдик. Вужудга ўт пуркади қон,
+Декабр, дарахтлар ухлар қисиниб.
+Учрашдик. Ҳадемай кўзимизда тонг
+Чўғлатар намиққан тамакисини.
+Энди бор, тоғларинг дийдорига ет,
+Сиқилма, оғушим, ўпичим ҳалол.
+Қашқирга дўнолмай қарийётган ит
+Номидан салом де, Ойқорга салом.`
+            }
+        ];
 
-{ id:"iddao", title:"Иддао", t:"Иддао", fl:"Бир кеча Гамлетман, бир кеча дарвиш", text:
-"Бир кеча Гамлетман, бир кеча дарвиш,\nБир кеча Хотамтой, бир кеч тиланчи.\nҚўлида руҳимни чевирар гардиш,\nМиқ этсам жонимни ташлайди янчиб.\n\nБир кеча гўрковман, бир кеча доя,\nАксимда намоён гоҳ шер, гоҳ шоқол.\nО, даҳшат! Тентираб юрганда соям\nҚочади, гўёки мен мараз, мохов.\n\nБир кеча чақмоққа ем бўлганда моҳ,\nВаҳима кўзимдан кирганда сизиб.\nЁ тавба, очиққан қорнимда ногоҳ,\nАёлдай ҳис қилдим гўдак тепкисин.\n\nАхир у эгизим, ичимда қолган,\nОвозин эшитмас ҳаёт — қумрини.\nЎғлига кун бермас бемаза чолдай\nЖим яшаб юрибман унинг умрини.\n\nАй, бошим. Бошми бу, ё айниган гўшт?\nЖилпанглар оёғим илондай совуқ.\nДовушман, тобутга қамалган довуш,\nҚутқара олади на сор, на товус.\n\nБир кеча жисмимга қапишар соям,\nГардиш ҳам чарчайди руҳимни элаб.\n(Ўзимман ўзимни туғдирган доя),\nЎзимни кўмарман ўз қўлим билан.\n\nУнгача муштлайман тақдир бошига,\nТинмасдан чоптириб хаёлга ғирот:\nЁзишга арзирли қабртошига,\nМенга ном топиб бер, ровий коинот!" }
-];
+        // Theme Toggle Logic
+        const invertBtn = document.getElementById('invertBtn');
+        
+        function setTheme(theme) {
+            if (theme === 'xerox') {
+                document.documentElement.setAttribute('data-theme', 'xerox');
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+            }
+            try {
+                localStorage.setItem('tushlarTheme', theme);
+            } catch (e) {}
+        }
 
-/* ---------- ЁРДАМЧИЛАР ---------- */
-var app = document.getElementById("app");
-var back = document.getElementById("back");
-var io = null;
+        try {
+            const savedTheme = localStorage.getItem('tushlarTheme');
+            if (savedTheme) setTheme(savedTheme);
+        } catch (e) {}
 
-function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
-function byId(id){for(var i=0;i<POEMS.length;i++){if(POEMS[i].id===id)return POEMS[i];}return null;}
-function pad(n){return n<10?"0"+n:""+n;}
+        invertBtn.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            setTheme(currentTheme === 'xerox' ? 'dark' : 'xerox');
+        });
 
-function lines(text){
-  return text.split("\n\n").map(function(st){
-    return '<p class="st">'+st.split("\n").map(function(l){return '<span class="l">'+esc(l.trim())+'</span>';}).join("")+'</p>';
-  }).join("");
-}
+        // Router
+        function renderToc() {
+            const list = document.getElementById('tocList');
+            list.innerHTML = '';
+            poems.forEach((poem, index) => {
+                const num = String(index + 1).padStart(2, '0');
+                list.innerHTML += `
+                    <li class="toc-item">
+                        <a href="#/p/${poem.id}">
+                            <span class="toc-num">${num}</span>
+                            <span class="toc-title">${poem.title}</span>
+                        </a>
+                    </li>
+                `;
+            });
+        }
 
-function observe(){
-  if(io) io.disconnect();
-  var items = document.querySelectorAll(".l");
-  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if(reduce || !("IntersectionObserver" in window)){
-    items.forEach(function(e){e.classList.add("in");}); return;
-  }
-  io = new IntersectionObserver(function(es){
-    es.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add("in"); io.unobserve(en.target);} });
-  },{threshold:0.5, rootMargin:"0px 0px -5% 0px"});
-  items.forEach(function(e){io.observe(e);});
-}
+        function renderPoem(id) {
+            const index = poems.findIndex(p => p.id === id);
+            if (index === -1) return;
+            const poem = poems[index];
 
-function pn(id){
-  var i = POEMS.indexOf(byId(id)), p = POEMS[i-1], n = POEMS[i+1];
-  var h = '<nav class="pn" aria-label="Кейинги шеърлар">';
-  h += p ? '<a class="prev" href="#/p/'+p.id+'">олдинги<span>'+esc(p.title||p.t)+'</span></a>' : '<a class="prev" href="#/toc">китоб<span>Мундарижа</span></a>';
-  h += n ? '<a class="next" href="#/p/'+n.id+'">кейинги<span>'+esc(n.title||n.t)+'</span></a>' : '<a class="next" href="#/toc">охири<span>Мундарижа</span></a>';
-  return h+'</nav>';
-}
+            document.getElementById('poemTitle').innerText = poem.title;
+            
+            // Xavfsiz satrlarga ajratish va html
+            const lines = poem.content.split('\n').map(line => {
+                // Bo'sh satrlarni saqlab qolish
+                if(line.trim() === '') return `<div class="poem-line" style="height: 1.9em;"></div>`;
+                // Xavfsiz qilib chiqarish
+                const safeLine = line.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                return `<div class="poem-line">${safeLine}</div>`;
+            });
+            
+            document.getElementById('poemContent').innerHTML = lines.join('');
 
-/* ---------- САҲИФАЛАР ---------- */
-function cover(){
-  back.classList.add("hide");
-  app.innerHTML =
-    '<section class="cover"><h1 class="title" aria-label="Тушлар мозори"><span class="w">Тушлар</span><span class="w">мозори</span></h1>'+
-    '<div class="tape">Жонтемир — шеърлар тўплами</div>'+
-    '<div class="rules"><p><b>Биринчи қоида:</b> жим кет.</p><p><b>Иккинчи қоида:</b> жим кет.</p></div>'+
-    '<a class="enter" href="#/toc">Кириш</a></section>';
-}
+            // Navigation
+            let navHtml = '';
+            if (index > 0) {
+                navHtml += `<a href="#/p/${poems[index-1].id}">← ОЛДИНГИ</a>`;
+            } else {
+                navHtml += `<span></span>`;
+            }
 
-function toc(){
-  back.classList.add("hide");
-  var rows = POEMS.map(function(p,i){
-    return '<a class="row" href="#/p/'+p.id+'"><span class="no">'+pad(i+1)+'</span>'+
-      '<span class="rt">'+esc(p.title||p.t)+(p.sub?'<small>'+esc(p.sub)+'</small>':'')+'</span>'+
-      '<span class="fl">'+esc(p.fl)+'</span></a>';
-  }).join("");
-  app.innerHTML =
-    '<section class="toc"><div class="toc-head"><h1>Мундарижа</h1><span class="stamp">'+POEMS.length+' шеър</span></div>'+
-    '<div class="rows">'+rows+'</div></section>';
-}
+            if (index < poems.length - 1) {
+                navHtml += `<a href="#/p/${poems[index+1].id}">КЕЙИНГИ →</a>`;
+            } else {
+                navHtml += `<a href="#/toc">ТУШЛАР МОЗОРИГА ҚАЙТИШ</a>`;
+            }
+            document.getElementById('poemNav').innerHTML = navHtml;
 
-function poem(id){
-  var p = byId(id); if(!p){ location.hash="#/toc"; return; }
-  back.classList.remove("hide");
-  var body = p.parts
-    ? p.parts.map(function(s,i){ return (i? '<div class="cut" aria-hidden="true"></div>':'')+lines(s); }).join("")
-    : lines(p.text);
-  var idx = POEMS.indexOf(p)+1;
-  app.innerHTML =
-    '<article class="reader"><p class="kicker"><b>'+pad(idx)+'</b> / '+pad(POEMS.length)+' — '+AUTHOR+(p.date?', '+p.date:'')+'</p>'+
-    '<h1 class="ptitle">'+esc(p.title||p.t)+'</h1>'+
-    '<div class="poem">'+body+'</div>'+
-    '<p class="sign"><b>'+AUTHOR+'</b><br>@Jontemir</p></article>'+pn(id);
-}
+            // Intersection Observer
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
-/* ---------- ЙЎНАЛТИРИШ ---------- */
-function route(){
-  var h = location.hash || "#/";
-  if(h.indexOf("#/p/")===0) poem(h.slice(4));
-  else if(h==="#/toc") toc();
-  else cover();
-  window.scrollTo(0,0);
-  observe();
-}
-window.addEventListener("hashchange", route);
+            document.querySelectorAll('.poem-line').forEach(line => {
+                observer.observe(line);
+            });
+        }
 
-/* ---------- ИНВЕРСИЯ (қоронғу / ёруғ) ---------- */
-var modeBtn = document.getElementById("mode");
-try{ var saved = localStorage.getItem("tm-theme"); if(saved) document.documentElement.setAttribute("data-theme", saved); }catch(e){}
-function isDark(){
-  var t = document.documentElement.getAttribute("data-theme");
-  if(t) return t==="dark";
-  return !window.matchMedia("(prefers-color-scheme: light)").matches;
-}
-modeBtn.addEventListener("click", function(){
-  var next = isDark() ? "light" : "dark";
-  document.documentElement.setAttribute("data-theme", next);
-  try{ localStorage.setItem("tm-theme", next); }catch(e){}
-});
+        function handleRoute() {
+            const hash = window.location.hash;
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            window.scrollTo(0,0);
 
-route();
-</script>
+            if (hash === '#/toc') {
+                document.getElementById('view-toc').classList.add('active');
+                renderToc();
+            } else if (hash.startsWith('#/p/')) {
+                document.getElementById('view-poem').classList.add('active');
+                renderPoem(hash.replace('#/p/', ''));
+            } else {
+                document.getElementById('view-cover').classList.add('active');
+            }
+        }
+
+        // Scroll Progress
+        window.addEventListener('scroll', () => {
+            if (!document.getElementById('view-poem').classList.contains('active')) {
+                document.getElementById('read-progress').style.height = '0%';
+                return;
+            }
+            const scrollPx = document.documentElement.scrollTop;
+            const winHeightPx = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = `${(scrollPx / winHeightPx) * 100}%`;
+            document.getElementById('read-progress').style.height = scrolled;
+        });
+
+        window.addEventListener('hashchange', handleRoute);
+        // Init
+        handleRoute();
+    </script>
 </body>
 </html>
